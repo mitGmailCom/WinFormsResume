@@ -16,50 +16,44 @@ namespace Task_One_ShutkovWinForms
         //      последнего должно отобразиться среднее число символов на странице (общее количество символов в резюме / количество MessageBox’ов).
 
         public string str { get; private set; } = null;
-        public static int res { get; private set; } = 0;
+        public int res { get; private set; } = 0;
+        public int countMB { get; private set; } = 0;
         
-        private static void Result(string tempStr)
+        private void Result(string tempStr)
         {
             res += tempStr.Length;
-
+            countMB++;
         }
 
         public Resume()
         {
             InitializeComponent();
             str = "Резуме Студента Академии Шаг - Шутков Дмитрий Викторович...";
-            DialogResult result = MessageBox.Show(str, "РЕЗЮМЕ",
-                MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            DialogResult result = MessageBox.Show(str, "РЕЗЮМЕ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Result(str);
             if (result == DialogResult.OK)
             {
                 str = "Дата рождения - 28.10.1984";
-                result = MessageBox.Show(str, "РЕЗЮМЕ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                result = MessageBox.Show(str, "РЕЗЮМЕ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Result(str);
                 if (result == DialogResult.OK)
                 {
-                    str = "Контактный телефон - 097 - 984 - 76 - 36";
-                    result = MessageBox.Show(str, "РЕЗЮМЕ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    str = "Контактный телефон - 097-984-76-36";
+                    result = MessageBox.Show(str, "РЕЗЮМЕ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Result(str);
                     if (result == DialogResult.OK)
                     {
-                        res = res / 4;
-                        result = MessageBox.Show("Всего доброго! Среднее количество символов = " + res.ToString(), "РЕЗЮМЕ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                        res = res / countMB;
+                        result = MessageBox.Show("Всего доброго! Среднее количество символов = " + res.ToString(), "РЕЗЮМЕ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else if (result == DialogResult.Cancel)
-                    {
-                        MessageBox.Show("Вы нажали кнопку Cancel");
-                    }
+                    else if (result != DialogResult.OK)
+                        MessageBox.Show("Вы не нажали на кнопку OK!");
                 }
-                else if (result == DialogResult.Cancel)
-                {
-                    MessageBox.Show("Вы нажали кнопку Cancel");
-                }
+                else if (result != DialogResult.OK)
+                    MessageBox.Show("Вы не нажали на кнопку OK!");
             }
-            else if (result == DialogResult.Cancel)
-            {
-                MessageBox.Show("Вы нажали кнопку Cancel");
-            }
+            else if (result != DialogResult.OK)
+                MessageBox.Show("Вы не нажали на кнопку OK!");
         }
     }
 }
