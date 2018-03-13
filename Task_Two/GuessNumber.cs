@@ -24,47 +24,47 @@ namespace Task_Two
         private int countIter { get; set; } = 0;
         private int number { get; set; } = 0;
         private int firstPointRange { get; set; } = 1;
-        private int lastPointRange { get; set; } = 10;
+        private int lastPointRange { get; set; } = 2000;
         DialogResult result;
 
-        private void Rnd()
+        private void Number()
         {
-            Random rand = new Random();
-            number = rand.Next(firstPointRange, lastPointRange); 
+            number = (firstPointRange + lastPointRange) / 2;
         }
+
+        private void Compare()
+        {
+            if (lastPointRange - firstPointRange == 0)
+            {
+                number = lastPointRange;
+                flag = 1;
+            }
+        }
+
         private void StartGame()
         {
             do
             {
-                if (lastPointRange - firstPointRange == 0)
-                {
-                    number = lastPointRange;
-                    flag = 1;
-                }
                 if (flag == 0)
                 {
                     result = MessageBox.Show($"'???' > {number} --> YES\n'???' < {number} --> NO\n'???' = {number} --> CANCEL", "Угадай число", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
                         firstPointRange = number + 1;
-                        Rnd();
+                        Compare();
+                        if (flag == 1)
+                            break;
+                        Number();
                         countIter++;
-                        //if (lastPointRange - firstPointRange == 1)
-                        //{
-                        //    flag = 1;
-                        //    number = lastPointRange - 1;
-                        //}
                     }
                     if (result == DialogResult.No)
                     {
                         lastPointRange = number - 1;
-                        Rnd();
+                        Compare();
+                        if (flag == 1)
+                            break;
+                        Number();
                         countIter++;
-                        //if (lastPointRange - firstPointRange == 1)
-                        //{
-                        //    number = lastPointRange - 1;
-                        //    flag = 1;
-                        //}
                     }
                     if (result == DialogResult.Cancel)
                         flag = 1;
@@ -72,14 +72,14 @@ namespace Task_Two
                         flag = 0;
                 }
             } while (flag == 0);
-            result = MessageBox.Show($"Вы загадали число - {number}");
+            result = MessageBox.Show($"Вы загадали число - {number} Использовано - {countIter} попытки(ок)");
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             result = MessageBox.Show("Загадайте число от 1 до 2000!", "Угадай число", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (result == DialogResult.OK)
-                Rnd();
+                Number();
                 StartGame();
         }
     }
