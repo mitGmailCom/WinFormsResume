@@ -38,6 +38,7 @@
             this.Name = "BorderRectangle";
             this.Text = "BorderRectangle";
             this.Load += new System.EventHandler(this.BorderRectangle_Load);
+            this.Click += new System.EventHandler(this.BorderRectangle_Click);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BorderRectangle_MouseClick);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BorderRectangle_MouseMove);
             this.ResumeLayout(false);

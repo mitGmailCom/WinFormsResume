@@ -19,9 +19,11 @@ using System.Windows.Forms;
 namespace Three
 {
     enum stateMouseCl {InRectangle = 1, OutRectangle = 2, OnRectangle = 3};
+    
     public partial class BorderRectangle : Form
-    {
+    {   
         DialogResult result;
+        private string PressCtrl { get; set; } = null;
         public BorderRectangle()
         {
             InitializeComponent();
@@ -32,24 +34,33 @@ namespace Three
 
         private void GetBorderRectangle(MouseEventArgs tempE)
         {
-            int borderMaxX = this.ClientSize.Width - 10;
-            int borderMaxY = this.ClientSize.Height - 10;
-            int borderMinX = 10;
-            int borderMinY = 10;
-            if ((borderMaxX < tempE.X || borderMaxY < tempE.Y) || (borderMinX > tempE.X || borderMinY > tempE.Y))
+            if (PressCtrl == null)
             {
-                result = MessageBox.Show($"{stateMouseCl.OutRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                int borderMaxX = this.ClientSize.Width - 10;
+                int borderMaxY = this.ClientSize.Height - 10;
+                int borderMinX = 10;
+                int borderMinY = 10;
+                if ((borderMaxX < tempE.X || borderMaxY < tempE.Y) || (borderMinX > tempE.X || borderMinY > tempE.Y))
+                {
+                    result = MessageBox.Show($"{stateMouseCl.OutRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                if ((borderMaxX > tempE.X & borderMinX < tempE.X & borderMaxY > tempE.Y & borderMinY < tempE.Y) || (borderMinX < tempE.X & borderMaxX > tempE.X & borderMinY < tempE.Y & borderMaxY > tempE.Y))
+                {
+                    result = MessageBox.Show($"{stateMouseCl.InRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                if ((borderMaxX == tempE.X || borderMaxY == tempE.Y) || (borderMinX == tempE.X || borderMinY == tempE.Y))
+                {
+                    result = MessageBox.Show($"{stateMouseCl.OnRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            if ((borderMaxX > tempE.X & borderMinX < tempE.X & borderMaxY > tempE.Y & borderMinY < tempE.Y) || (borderMinX < tempE.X & borderMaxX > tempE.X & borderMinY < tempE.Y & borderMaxY > tempE.Y))
+            if (PressCtrl != null)
             {
-                result = MessageBox.Show($"{stateMouseCl.InRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                //Application.Exit();
             }
-            if ((borderMaxX == tempE.X || borderMaxY == tempE.Y) || (borderMinX == tempE.X || borderMinY == tempE.Y))
-            {
-                result = MessageBox.Show($"{stateMouseCl.OnRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            else
+                PressCtrl = null;
         }
-
 
         private void BorderRectangle_MouseMove(object sender, MouseEventArgs e)
         {
@@ -66,6 +77,12 @@ namespace Three
             {
                 GetBorderRectangle(e);
             }
+        }
+
+        private void BorderRectangle_Click(object sender, EventArgs e)
+        {
+            if (BorderRectangle.ModifierKeys == Keys.Control)
+                PressCtrl = BorderRectangle.ModifierKeys.ToString();
         }
     }
 }
