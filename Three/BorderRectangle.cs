@@ -18,19 +18,17 @@ using System.Windows.Forms;
 
 namespace Three
 {
-    enum stateMouseCl {InRectangle = 1, OutRectangle = 2, OnRectangle = 3};
-    
+    enum stateMouseCl { InRectangle = 1, OutRectangle = 2, OnRectangle = 3 };
+
     public partial class BorderRectangle : Form
-    {   
+    {
         DialogResult result;
         private string PressCtrl { get; set; } = null;
+        private bool flag { get; set; } = false;
         public BorderRectangle()
         {
             InitializeComponent();
         }
-
-        private void BorderRectangle_Load(object sender, EventArgs e)
-        { }
 
         private void GetBorderRectangle(MouseEventArgs tempE)
         {
@@ -44,16 +42,19 @@ namespace Three
                 {
                     result = MessageBox.Show($"{stateMouseCl.OutRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                if ((borderMaxX > tempE.X & borderMinX < tempE.X & borderMaxY > tempE.Y & borderMinY < tempE.Y) || (borderMinX < tempE.X & borderMaxX > tempE.X & borderMinY < tempE.Y & borderMaxY > tempE.Y))
+                else if ((borderMaxX > tempE.X & borderMinX < tempE.X & borderMaxY > tempE.Y & borderMinY < tempE.Y) || (borderMinX < tempE.X & borderMaxX > tempE.X & borderMinY < tempE.Y & borderMaxY > tempE.Y))
                 {
                     result = MessageBox.Show($"{stateMouseCl.InRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                if ((borderMaxX == tempE.X || borderMaxY == tempE.Y) || (borderMinX == tempE.X || borderMinY == tempE.Y))
+                else if ((borderMaxX == tempE.X || borderMaxY == tempE.Y) || (borderMinX == tempE.X || borderMinY == tempE.Y))
                 {
                     result = MessageBox.Show($"{stateMouseCl.OnRectangle}", "Событие Click(Левая клавиша)", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                else
+                    PressCtrl = null;
             }
-            if (PressCtrl != null)
+
+            else if (PressCtrl == "Control")
             {
                 this.Close();
                 //Application.Exit();
@@ -64,25 +65,45 @@ namespace Three
 
         private void BorderRectangle_MouseMove(object sender, MouseEventArgs e)
         {
-            this.Text = $"X = {MousePosition.X.ToString()} Y = {MousePosition.Y.ToString()}";
+            if (this.ClientSize.Height < 23 | this.ClientSize.Width < 23)
+            {
+                result = MessageBox.Show("Клиентская область окна меньше чем предположеный прямоугольник\nТребование: Xmin > 23, Ymin > 23)", "ВНИМАНИЕ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            if (flag == false)
+            {
+                this.Text = $"X = {e.Location.X.ToString()} Y = {e.Location.Y.ToString()}";
+            }
+            if (flag == true)
+            {
+                this.MouseMove -= this.BorderRectangle_MouseMove;
+                this.Text = $"КО: Ширина={this.ClientSize.Width.ToString()} Длина={this.ClientSize.Height.ToString()}";
+                this.MouseMove += this.BorderRectangle_MouseMove;
+                flag = false;
+            }
+            else
+                flag = false;
         }
 
         private void BorderRectangle_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                result = MessageBox.Show($"Размер клиентской области окна:\nШирина = {this.ClientSize.Width.ToString()}\nДлина = {this.ClientSize.Height.ToString()}");
+                flag = true;
             }
-            if (e.Button == MouseButtons.Left)
+            else if (e.Button == MouseButtons.Left)
             {
                 GetBorderRectangle(e);
             }
+            else
+                flag = false;
         }
 
         private void BorderRectangle_Click(object sender, EventArgs e)
         {
             if (BorderRectangle.ModifierKeys == Keys.Control)
                 PressCtrl = BorderRectangle.ModifierKeys.ToString();
+            else
+                PressCtrl = null;
         }
     }
 }
