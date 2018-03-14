@@ -16,30 +16,26 @@ using System.Windows.Forms;
 //-При щелчке правой кнопкой мыши над поверхностью «статика» в заголовке окна должна появиться информация о его площади и координатах
 //(относительно формы).
 //В случае, если в точке щелчка находится несколько «статиков», то предпочтение отдается «статику» с наибольшим порядковым номером.
-
+//-При двойном щелчке левой кнопки мыши над поверхностью «статика» он должен исчезнуть с формы.В случае, если в точке щелчка находится
+//несколько «статиков», то предпочтение отдается «статику» с наименьшим порядковым номером.
 namespace Task_Four
 {
     public partial class Static : Form
     {
         DialogResult res;
-        private int X1 { get; set; } = 0;
-        private int Y1 { get; set; } = 0;
-        private int X4 { get; set; } = 0;
-        private int Y4 { get; set; } = 0;
-        private int X2 { get; set; } = 0;
-        private int Y2 { get; set; } = 0;
-        private int X3 { get; set; } = 0;
-        private int Y3 { get; set; } = 0;
-        private Point p1;// { get; set; }
-        private Point p2;// { get; set; }
-        private Point p3;// { get; set; }
-        private Point p4;// { get; set; }
+        private Point p1;
+        private Point p2;
+        private Point p3;
+        private Point p4;
         private int HRect { get; set; } = 0;
         private int WRect { get; set; } = 0;
         private string NameRect { get; set; } = null;
         private string FirstPartNameRect { get; set; } = "Rectangle";
         public int CountRect { get; private set; } = 0;
-        private bool flag { get; set; } = false;
+        private bool flag { get; set; } = false; // индикатор для mousedown 
+        private int flagDoubleClick { get; set; } = 0;
+        private int minX { get; } = 10;
+        private int minY { get; } = 10;
 
         public Static()
         {
@@ -50,12 +46,34 @@ namespace Task_Four
         {
             if (e.Button == MouseButtons.Left)
             {
-                X1 = e.Location.X;
-                Y1 = e.Location.Y;
+                this.Text = $"x = {e.Location.X.ToString()} y = {e.Location.Y.ToString()}";
                 p1.X = e.Location.X;
                 p1.Y = e.Location.Y;
                 flag = true;
+                flagDoubleClick++;
             }
+            else if (e.Button == MouseButtons.Right)
+            {
+                if(CountRect > 0)
+                {
+                    int tempP = 15;
+                    int count = 0;
+                    int ind = 0;
+                    for(int i = 0; i < this.Controls.Count; i++)
+                    {
+                        if ((e.Location.X > this.Controls[i].Location.X & e.Location.X < this.Controls[i].Location.X + this.Controls[i].Width) & (e.Location.Y < this.Controls[i].Location.Y & e.Location.Y > this.Controls[i].Location.Y - tempP))
+                        {
+                            if (Convert.ToInt32(this.Controls[i].Text) > count)
+                            {
+                                count = Convert.ToInt32(this.Controls[i].Text);
+                                ind = i;
+                            }
+                        }
+                    }
+                    this.Text = $"{this.Controls[ind].Name} P1({this.Controls[ind].Location.X},{this.Controls[ind].Location.Y}) P2({this.Controls[ind].Location.X + this.Controls[ind].Width},{this.Controls[ind].Location.Y}) P3({this.Controls[ind].Location.X},{this.Controls[ind].Location.Y + this.Controls[ind].Height}) P4({this.Controls[ind].Location.X + this.Controls[ind].Width},{this.Controls[ind].Location.Y + this.Controls[ind].Height}) S = {this.Controls[ind].Width * this.Controls[ind].Height}";
+                }
+            }
+
             else
                 res = MessageBox.Show("Вы нажали не левую кнопку мыши!", "");
         }
@@ -66,24 +84,25 @@ namespace Task_Four
             {
                 if(e.Button == MouseButtons.Left)
                 {
-                    X4 = e.Location.X;
-                    Y4 = e.Location.Y;
-                    p4.X = e.Location.X;
-                    p4.Y = e.Location.Y;
-                    p2.X = p4.X;
-                    p2.Y = p1.Y;
-                    p3.X = p1.X;
-                    p3.Y = p4.Y;
-                    X2 = X1;
-                    Y2 = Y4;
-                    X3 = X4;
-                    Y3 = Y1;
-                    WRect = p2.X - p1.X;
-                    HRect = p3.Y - p1.Y;
-                    CountRect++;
-                    createNameRect();
+                    if (e.Location.X - p1.X > minX & e.Location.Y - p1.Y > minY)
+                    {
+                        this.Text = $"x = {e.Location.X.ToString()} y = {e.Location.Y.ToString()}";
+                        p4.X = e.Location.X;
+                        p4.Y = e.Location.Y;
+                        WRect = p4.X - p1.X;
+                        HRect = p4.Y - p1.Y;
+                        CountRect++;
+                        createNameRect();
+                    }
+                    else
+                        MessageBox.Show($"Минимальный размер Статика должен быть - 10Х10", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //if (WRect < 10 | HRect < 10)
+                    //{
+                    //    MessageBox.Show($"Минимальный размер Статика должен быть - 10Х10", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //}
                 }
             }
+            flagDoubleClick++;
         }
 
         private void createNameRect()
@@ -96,21 +115,48 @@ namespace Task_Four
             Label rect1 = new Label();
             rect1.SuspendLayout();
             rect1.Location = p1;
-            rect1.Size = new Size(HRect, WRect);
+            rect1.Height = HRect;
+            rect1.Width = WRect;
             rect1.Name = NameRect;
             rect1.BorderStyle = BorderStyle.FixedSingle;
+            rect1.MinimumSize = new Size(10, 10);
+            rect1.Text = CountRect.ToString();
             this.Controls.Add(rect1);
+            rect1.SuspendLayout();
+            rect1.Enabled = false;
             rect1.BringToFront();
-            //rect1.Visible = true;
-            rect1.Enabled = true;
-            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Static_MouseDown);
-            //rect1.MouseDown += this.label1 
 
         }
 
         private void Static_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void Static_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (CountRect > 0)
+                {
+                    int tempP = 15;
+                    int count = 0;
+                    int ind = 0;
+                    for (int i = 0; i < this.Controls.Count; i++)
+                    {
+                        if ((e.Location.X > this.Controls[i].Location.X & e.Location.X < this.Controls[i].Location.X + this.Controls[i].Width) & (e.Location.Y < this.Controls[i].Location.Y & e.Location.Y > this.Controls[i].Location.Y - tempP))
+                        {
+                            //if (Convert.ToInt32(this.Controls[i].Text) > count)
+                            //{
+                            //count = Convert.ToInt32(this.Controls[i].Text);
+                            ind = i;
+                            break;
+                            //}
+                        }
+                    }
+                    this.Text = $"{this.Controls[ind].Name} P1({this.Controls[ind].Location.X},{this.Controls[ind].Location.Y}) P2({this.Controls[ind].Location.X + this.Controls[ind].Width},{this.Controls[ind].Location.Y}) P3({this.Controls[ind].Location.X},{this.Controls[ind].Location.Y + this.Controls[ind].Height}) P4({this.Controls[ind].Location.X + this.Controls[ind].Width},{this.Controls[ind].Location.Y + this.Controls[ind].Height}) S = {this.Controls[ind].Width * this.Controls[ind].Height}";
+                }
+            }
         }
     }
 }
