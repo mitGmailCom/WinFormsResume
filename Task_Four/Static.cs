@@ -36,6 +36,7 @@ namespace Task_Four
         private int flagDoubleClick { get; set; } = 0;
         private int minX { get; } = 10;
         private int minY { get; } = 10;
+        private int TimeI { get; set; } = 0;
 
         public Static()
         {
@@ -47,6 +48,14 @@ namespace Task_Four
             if (e.Button == MouseButtons.Left)
             {
                 this.Text = $"x = {e.Location.X.ToString()} y = {e.Location.Y.ToString()}";
+                if (p1.X == e.Location.X & p1.Y == e.Location.Y)
+                {
+                    if (TimeI <= 1)
+                    {
+                        this.OnMouseDoubleClick(e);
+                    }
+                }
+
                 p1.X = e.Location.X;
                 p1.Y = e.Location.Y;
                 flag = true;
@@ -82,27 +91,36 @@ namespace Task_Four
         {
             if (flag == true)
             {
-                if(e.Button == MouseButtons.Left)
+                if (e.Location.X > p1.X & e.Location.Y > p1.Y)
                 {
-                    if (e.Location.X - p1.X > minX & e.Location.Y - p1.Y > minY)
+                    if (e.Button == MouseButtons.Left)
                     {
-                        this.Text = $"x = {e.Location.X.ToString()} y = {e.Location.Y.ToString()}";
-                        p4.X = e.Location.X;
-                        p4.Y = e.Location.Y;
-                        WRect = p4.X - p1.X;
-                        HRect = p4.Y - p1.Y;
-                        CountRect++;
-                        createNameRect();
+                        if (e.Location.X - p1.X > minX & e.Location.Y - p1.Y > minY)
+                        {
+                            this.Text = $"x = {e.Location.X.ToString()} y = {e.Location.Y.ToString()}";
+                            p4.X = e.Location.X;
+                            p4.Y = e.Location.Y;
+                            WRect = p4.X - p1.X;
+                            HRect = p4.Y - p1.Y;
+                            CountRect++;
+                            createNameRect();
+                            flagDoubleClick = 0;
+                        }
+                        else
+                            MessageBox.Show($"Минимальный размер Статика должен быть - 10Х10", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    else
-                        MessageBox.Show($"Минимальный размер Статика должен быть - 10Х10", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //if (WRect < 10 | HRect < 10)
-                    //{
-                    //    MessageBox.Show($"Минимальный размер Статика должен быть - 10Х10", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //}
                 }
             }
-            flagDoubleClick++;
+
+            if (e.Location.X == p1.X & e.Location.Y == p1.Y)
+            {
+                this.timer1.Enabled = true;
+                this.timer1.Interval = 500;
+                TimeI++;
+                this.timer1.Start();
+                flagDoubleClick++;
+            }
+            
         }
 
         private void createNameRect()
@@ -140,20 +158,22 @@ namespace Task_Four
                 if (CountRect > 0)
                 {
                     int tempP = 15;
-                    int count = 0;
+                    int count = Convert.ToInt32(this.Controls[0].Text);
                     int ind = 0;
                     for (int i = 0; i < this.Controls.Count; i++)
                     {
                         if ((e.Location.X > this.Controls[i].Location.X & e.Location.X < this.Controls[i].Location.X + this.Controls[i].Width) & (e.Location.Y < this.Controls[i].Location.Y & e.Location.Y > this.Controls[i].Location.Y - tempP))
                         {
-                            //if (Convert.ToInt32(this.Controls[i].Text) > count)
-                            //{
-                            //count = Convert.ToInt32(this.Controls[i].Text);
-                            ind = i;
+                            if (Convert.ToInt32(this.Controls[i].Text) < count)
+                            {
+                                count = Convert.ToInt32(this.Controls[i].Text);
+                                ind = i;
                             break;
-                            //}
+                            }
                         }
                     }
+                    //this.Text = $"MouseDoubleClick";
+                    this.Controls[ind].Visible = false;
                     this.Text = $"{this.Controls[ind].Name} P1({this.Controls[ind].Location.X},{this.Controls[ind].Location.Y}) P2({this.Controls[ind].Location.X + this.Controls[ind].Width},{this.Controls[ind].Location.Y}) P3({this.Controls[ind].Location.X},{this.Controls[ind].Location.Y + this.Controls[ind].Height}) P4({this.Controls[ind].Location.X + this.Controls[ind].Width},{this.Controls[ind].Location.Y + this.Controls[ind].Height}) S = {this.Controls[ind].Width * this.Controls[ind].Height}";
                 }
             }
