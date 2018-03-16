@@ -63,8 +63,68 @@ namespace Task_Five
                     if ((e.Location.X > this.btnMoveStatic.Location.X + this.btnMoveStatic.Width / 2) & (e.Location.Y > this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height) & (e.Location.Y < this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height + stepY))
                         if (this.btnMoveStatic.Location.X > 0)
                             this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X - stepY, this.btnMoveStatic.Location.Y);
+                    if ((e.Location.X < this.btnMoveStatic.Location.X + this.btnMoveStatic.Width / 2) & (e.Location.Y > this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height) & (e.Location.Y < this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height + stepY))
+                        if (this.btnMoveStatic.Location.X > 0)
+                            this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X + stepY, this.btnMoveStatic.Location.Y);
                 }
             }
+
+            // с права на лево
+            //if ((e.Location.X < this.btnMoveStatic.Location.X) & (e.Location.X > this.btnMoveStatic.Location.X - stepX) & (e.Location.Y > this.btnMoveStatic.Location.Y) & (e.Location.Y < this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height))
+            //{
+            //    if (this.btnMoveStatic.Location.X < this.Width - this.btnMoveStatic.Width - 20)
+            //        this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X + stepX, this.btnMoveStatic.Location.Y);
+
+            //    if (this.btnMoveStatic.Location.X <= this.btnMoveStatic.Location.X - 5 & this.btnMoveStatic.Location.X >= this.btnMoveStatic.Location.X)
+            //    {
+            //        this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y);
+            //        if ((e.Location.Y > this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height / 2) & (e.Location.X > this.btnMoveStatic.Location.X + this.btnMoveStatic.Width) & (e.Location.X < this.btnMoveStatic.Location.X + this.btnMoveStatic.Width + stepX))
+            //            if (this.btnMoveStatic.Location.Y > 0)
+            //                this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y - stepY);
+            //        if ((e.Location.Y < this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height / 2) & (e.Location.X < this.btnMoveStatic.Location.X) & (e.Location.X > this.btnMoveStatic.Location.X + stepX))
+            //            if (this.btnMoveStatic.Location.Y > 0)
+            //                this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y + stepY);
+            //    }
+            //}
+
+
+            //if(this.btnMoveStatic.ClientRectangle.Height)
+
+            if ((e.Location.X < this.btnMoveStatic.Location.X) & (e.Location.X > this.btnMoveStatic.Location.X - stepX) & (e.Location.Y > this.btnMoveStatic.Location.Y) & (e.Location.Y < this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height))
+            {
+                if (this.btnMoveStatic.Location.X < this.Width - this.btnMoveStatic.Width - 20)
+                    this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X + stepX, this.btnMoveStatic.Location.Y);
+
+                if (this.btnMoveStatic.Location.X <= this.btnMoveStatic.Location.X - 5 & this.btnMoveStatic.Location.X >= this.btnMoveStatic.Location.X)
+                {
+                    this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y);
+                    if ((e.Location.Y > this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height / 2) & (e.Location.X > this.btnMoveStatic.Location.X + this.btnMoveStatic.Width) & (e.Location.X < this.btnMoveStatic.Location.X + this.btnMoveStatic.Width + stepX))
+                        if (this.btnMoveStatic.Location.Y > 0)
+                            this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y - stepY);
+                    if ((e.Location.Y < this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height / 2) & (e.Location.X < this.btnMoveStatic.Location.X) & (e.Location.X > this.btnMoveStatic.Location.X + stepX))
+                        if (this.btnMoveStatic.Location.Y > 0)
+                            this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y + stepY);
+                }
+            }
+
+
+            // сверху вниз
+            if ((e.Location.Y < this.btnMoveStatic.Location.Y) & (e.Location.Y > this.btnMoveStatic.Location.Y - stepY) & (e.Location.X > this.btnMoveStatic.Location.X) & (e.Location.X < this.btnMoveStatic.Location.X + this.btnMoveStatic.Width))
+                {
+                    if (this.btnMoveStatic.Location.X < this.Height)
+                        this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y + stepY);
+
+                    if (this.btnMoveStatic.Location.Y < this.btnMoveStatic.Location.Y + 5 & this.btnMoveStatic.Location.Y >= this.btnMoveStatic.Location.Y)
+                    {
+                        this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y);
+                        if ((e.Location.Y > this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height / 2) & (e.Location.X > this.btnMoveStatic.Location.X + this.btnMoveStatic.Width) & (e.Location.X < this.btnMoveStatic.Location.X + this.btnMoveStatic.Width + stepX))
+                            if (this.btnMoveStatic.Location.Y > 0)
+                                this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y - stepY);
+                        if ((e.Location.Y < this.btnMoveStatic.Location.Y + this.btnMoveStatic.Height / 2) & (e.Location.X < this.btnMoveStatic.Location.X) & (e.Location.X > this.btnMoveStatic.Location.X + stepX))
+                            if (this.btnMoveStatic.Location.Y > 0)
+                                this.btnMoveStatic.Location = new Point(this.btnMoveStatic.Location.X, this.btnMoveStatic.Location.Y + stepY);
+                    }
+                }
 
             else
                 t = 0;
