@@ -85,6 +85,7 @@
             this.rbMonthes.TabIndex = 1;
             this.rbMonthes.Text = "Месяцы";
             this.rbMonthes.UseVisualStyleBackColor = true;
+            this.rbMonthes.CheckedChanged += new System.EventHandler(this.rbMonthes_CheckedChanged);
             // 
             // rbDays
             // 
@@ -95,6 +96,7 @@
             this.rbDays.TabIndex = 2;
             this.rbDays.Text = "Дни";
             this.rbDays.UseVisualStyleBackColor = true;
+            this.rbDays.CheckedChanged += new System.EventHandler(this.rbDays_CheckedChanged);
             // 
             // rbMinute
             // 
@@ -105,6 +107,7 @@
             this.rbMinute.TabIndex = 3;
             this.rbMinute.Text = "Минуты";
             this.rbMinute.UseVisualStyleBackColor = true;
+            this.rbMinute.CheckedChanged += new System.EventHandler(this.rbMinute_CheckedChanged);
             // 
             // rbSec
             // 
@@ -115,6 +118,7 @@
             this.rbSec.TabIndex = 4;
             this.rbSec.Text = "Секунды";
             this.rbSec.UseVisualStyleBackColor = true;
+            this.rbSec.CheckedChanged += new System.EventHandler(this.rbSec_CheckedChanged);
             // 
             // lbCaseOutput
             // 
@@ -170,6 +174,7 @@
             this.Controls.Add(this.lbInputDate);
             this.Name = "HowTimeTo";
             this.Text = "TimeTo";
+            this.Load += new System.EventHandler(this.HowTimeTo_Load);
             this.gbCaseOutput.ResumeLayout(false);
             this.gbCaseOutput.PerformLayout();
             this.ResumeLayout(false);

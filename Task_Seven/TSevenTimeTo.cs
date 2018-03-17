@@ -16,6 +16,7 @@ namespace Task_Seven
 {
     public partial class HowTimeTo : Form
     {
+        private int deltaMonth{ get; set; }
         public HowTimeTo()
         {
             InitializeComponent();
@@ -28,80 +29,170 @@ namespace Task_Seven
 
         private int ReturnMonth()
         {
-            DateTime inputDate = Convert.ToDateTime(this.mtbInputDate.Text.ToString());
-            DateTime nowDate = new DateTime();
-            nowDate = DateTime.Now;
-            int nowYear = nowDate.Year;
-            int targetYear = inputDate.Year;
-            int deltaMonth = 0;
-            for (int i = nowYear; i <= targetYear; i++)
+            try
             {
-                if (nowYear == targetYear)
-                    deltaMonth = inputDate.Month - nowDate.Month;
-                if (nowYear != targetYear)
+                deltaMonth = 0;
+                this.lbOutputShow.Text = "null";
+                DateTime inputDate = Convert.ToDateTime(this.mtbInputDate.Text.ToString());
+                DateTime nowDate = new DateTime();
+                nowDate = DateTime.Now;
+                int nowYear = nowDate.Year;
+                int targetYear = inputDate.Year;
+                
+                for (int i = nowYear; i <= targetYear; i++)
                 {
-                    if (i == nowYear & nowYear != targetYear)
-                        deltaMonth += 12 - nowDate.Month;
-                    else if (i == targetYear & nowYear != targetYear)
-                        deltaMonth += inputDate.Month;
-                    else
-                        deltaMonth += 12;
+                    if (nowYear == targetYear)
+                        deltaMonth = inputDate.Month - nowDate.Month;
+                    if (nowYear != targetYear)
+                    {
+                        if (i == nowYear & nowYear != targetYear)
+                            deltaMonth += 12 - nowDate.Month;
+                        else if (i == targetYear & nowYear != targetYear)
+                            deltaMonth += inputDate.Month;
+                        else
+                            deltaMonth += 12;
+                    }
                 }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show($"Неправильный формат ввода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return deltaMonth;
         }
 
-        private void mtbInputDate_KeyPress(object sender, KeyPressEventArgs e)
+        private void CheckedYearsShow()
         {
-            if (e.KeyChar.ToString() == "\r")
+            if (this.rbYears.Checked)
             {
-                if (this.rbYears.Checked)
+                this.lbOutputShow.Text = "null";
+                int temp = ReturnMonth();
+                int integer = temp / 12;
+                int ostatok = temp % 12;
+                this.lbOutputShow.Text = $"{(integer + Math.Round(Convert.ToDouble(ostatok) / Convert.ToDouble(12), 2)).ToString()}";
+                deltaMonth = 0;
+            }
+        }
+        private void CheckedMonthShow()
+        {
+            
+            if (this.rbMonthes.Checked)
+            {
+                this.lbOutputShow.Text = "null";
+                this.lbOutputShow.Text = $"{ReturnMonth()}";
+            }
+        }
+        private void CheckedDaysShow()
+        {
+            if (this.rbDays.Checked)
+            {
+                try
                 {
-                    int integer = ReturnMonth() / 12;
-                    int ostatok = ReturnMonth() % 12;
-                    this.lbOutputShow.Text = $"{(integer + Math.Round(Convert.ToDouble(ostatok) / Convert.ToDouble(12), 2)).ToString()}";
-                }
-
-                if (this.rbMonthes.Checked)
-                {
-                    this.lbOutputShow.Text = $"{ReturnMonth()}";
-                }
-
-                if(this.rbDays.Checked)
-                {
+                    this.lbOutputShow.Text = "null";
                     DateTime inputDate = Convert.ToDateTime(this.mtbInputDate.Text.ToString());
                     DateTime nowDate = new DateTime();
                     nowDate = DateTime.Now;
                     System.TimeSpan delta = inputDate.Subtract(nowDate);
                     this.lbOutputShow.Text = $"{delta.Days.ToString()}";
+                    deltaMonth = 0;
                 }
-
-                if (this.rbMinute.Checked)
+                catch (FormatException)
                 {
+                    MessageBox.Show($"Неправильный формат ввода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void CheckedMinutesShow()
+        {
+            if (this.rbMinute.Checked)
+            {
+                try
+                {
+                    this.lbOutputShow.Text = "null";
                     DateTime inputDate = Convert.ToDateTime(this.mtbInputDate.Text.ToString());
                     DateTime nowDate = new DateTime();
                     nowDate = DateTime.Now;
                     System.TimeSpan delta = inputDate.Subtract(nowDate);
                     int min = delta.Days * 24 * 60;
                     this.lbOutputShow.Text = $"{(delta.Minutes + min).ToString()}";
+                    deltaMonth = 0;
                 }
-
-                if (this.rbSec.Checked)
+                catch (FormatException)
                 {
+                    MessageBox.Show($"Неправильный формат ввода.","Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void CheckedSecundsShow()
+        {
+            if (this.rbSec.Checked)
+            {
+                try
+                {
+                    this.lbOutputShow.Text = "null";
                     DateTime inputDate = Convert.ToDateTime(this.mtbInputDate.Text.ToString());
                     DateTime nowDate = new DateTime();
                     nowDate = DateTime.Now;
                     System.TimeSpan delta = inputDate.Subtract(nowDate);
                     int sec = delta.Days * 24 * 60 * 60;
                     this.lbOutputShow.Text = $"{(delta.Seconds + sec).ToString()}";
+                    deltaMonth = 0;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show($"Неправильный формат ввода.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            
+        }
+
+        private void mtbInputDate_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar.ToString() == "\r")
+            {
+                CheckedYearsShow();
+                CheckedMonthShow();
+                CheckedDaysShow();
+                CheckedMinutesShow();
+                CheckedSecundsShow();
+            }
         }
 
         private void rbYears_CheckedChanged(object sender, EventArgs e)
         {
-            
+            if (mtbInputDate.Text != null)
+            {
+                this.lbOutputShow.Text = "null";
+                CheckedYearsShow();
+            }
+        }
+
+        private void rbMonthes_CheckedChanged(object sender, EventArgs e)
+        {
+            this.lbOutputShow.Text = "null";
+            CheckedMonthShow();
+        }
+
+        private void rbDays_CheckedChanged(object sender, EventArgs e)
+        {
+            this.lbOutputShow.Text = "null";
+            CheckedDaysShow();
+        }
+
+        private void rbMinute_CheckedChanged(object sender, EventArgs e)
+        {
+            this.lbOutputShow.Text = "null";
+            CheckedMinutesShow();
+        }
+
+        private void rbSec_CheckedChanged(object sender, EventArgs e)
+        {
+            this.lbOutputShow.Text = "null";
+            CheckedSecundsShow();
+        }
+
+        private void HowTimeTo_Load(object sender, EventArgs e)
+        {
+            deltaMonth = 0;
         }
     }
 }
