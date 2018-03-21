@@ -43,22 +43,22 @@
             this.rbCountFuel = new System.Windows.Forms.RadioButton();
             this.gbToPayFuel = new System.Windows.Forms.GroupBox();
             this.lbGrnToPayFuel = new System.Windows.Forms.Label();
-            this.SumFuelShow = new System.Windows.Forms.Label();
+            this.lbSumFuelShow = new System.Windows.Forms.Label();
             this.gbCafe = new System.Windows.Forms.GroupBox();
+            this.masktbCountCola = new System.Windows.Forms.MaskedTextBox();
+            this.masktbCountPotatoFri = new System.Windows.Forms.MaskedTextBox();
+            this.masktbCountHamburger = new System.Windows.Forms.MaskedTextBox();
+            this.masktbCountHotDog = new System.Windows.Forms.MaskedTextBox();
             this.lbCountCafe = new System.Windows.Forms.Label();
             this.lbPriceCafe = new System.Windows.Forms.Label();
             this.cbCola = new System.Windows.Forms.CheckBox();
             this.cbPotatoFri = new System.Windows.Forms.CheckBox();
             this.cbHamburger = new System.Windows.Forms.CheckBox();
             this.cbHotDog = new System.Windows.Forms.CheckBox();
-            this.tbCountCola = new System.Windows.Forms.TextBox();
             this.tbPriceHamburger = new System.Windows.Forms.TextBox();
             this.tbPricePotatoFri = new System.Windows.Forms.TextBox();
             this.tbPriceCola = new System.Windows.Forms.TextBox();
-            this.tbCountHotDog = new System.Windows.Forms.TextBox();
             this.tbPriceHotDog = new System.Windows.Forms.TextBox();
-            this.tbCountPotatoFri = new System.Windows.Forms.TextBox();
-            this.tbCountHamburger = new System.Windows.Forms.TextBox();
             this.gbToPayCafe = new System.Windows.Forms.GroupBox();
             this.lbGrnToPayCafe = new System.Windows.Forms.Label();
             this.lbSumCafeShow = new System.Windows.Forms.Label();
@@ -132,6 +132,7 @@
             this.tbSumClientInput.Name = "tbSumClientInput";
             this.tbSumClientInput.Size = new System.Drawing.Size(63, 20);
             this.tbSumClientInput.TabIndex = 10;
+            this.tbSumClientInput.TextChanged += new System.EventHandler(this.tbSumClientInput_TextChanged);
             // 
             // tbLFuel
             // 
@@ -139,6 +140,7 @@
             this.tbLFuel.Name = "tbLFuel";
             this.tbLFuel.Size = new System.Drawing.Size(63, 20);
             this.tbLFuel.TabIndex = 9;
+            this.tbLFuel.TextChanged += new System.EventHandler(this.tbLFuel_TextChanged);
             // 
             // lbGrnPriceFuel
             // 
@@ -152,7 +154,7 @@
             // lbPrice
             // 
             this.lbPrice.AutoSize = true;
-            this.lbPrice.Location = new System.Drawing.Point(43, 57);
+            this.lbPrice.Location = new System.Drawing.Point(44, 59);
             this.lbPrice.Name = "lbPrice";
             this.lbPrice.Size = new System.Drawing.Size(33, 13);
             this.lbPrice.TabIndex = 7;
@@ -161,7 +163,7 @@
             // lbFuel
             // 
             this.lbFuel.AutoSize = true;
-            this.lbFuel.Location = new System.Drawing.Point(43, 22);
+            this.lbFuel.Location = new System.Drawing.Point(44, 22);
             this.lbFuel.Name = "lbFuel";
             this.lbFuel.Size = new System.Drawing.Size(44, 13);
             this.lbFuel.TabIndex = 6;
@@ -174,6 +176,7 @@
             this.cbTypeFuel.Name = "cbTypeFuel";
             this.cbTypeFuel.Size = new System.Drawing.Size(100, 21);
             this.cbTypeFuel.TabIndex = 5;
+            this.cbTypeFuel.SelectedValueChanged += new System.EventHandler(this.cbTypeFuel_SelectedValueChanged);
             // 
             // gbChoiseType
             // 
@@ -195,6 +198,7 @@
             this.rbTypeSum.TabStop = true;
             this.rbTypeSum.Text = "Сумма";
             this.rbTypeSum.UseVisualStyleBackColor = true;
+            this.rbTypeSum.CheckedChanged += new System.EventHandler(this.rbTypeSum_CheckedChanged);
             // 
             // rbCountFuel
             // 
@@ -206,11 +210,12 @@
             this.rbCountFuel.TabStop = true;
             this.rbCountFuel.Text = "Количество";
             this.rbCountFuel.UseVisualStyleBackColor = true;
+            this.rbCountFuel.CheckedChanged += new System.EventHandler(this.rbCountFuel_CheckedChanged);
             // 
             // gbToPayFuel
             // 
             this.gbToPayFuel.Controls.Add(this.lbGrnToPayFuel);
-            this.gbToPayFuel.Controls.Add(this.SumFuelShow);
+            this.gbToPayFuel.Controls.Add(this.lbSumFuelShow);
             this.gbToPayFuel.Location = new System.Drawing.Point(6, 172);
             this.gbToPayFuel.Name = "gbToPayFuel";
             this.gbToPayFuel.Size = new System.Drawing.Size(207, 71);
@@ -227,31 +232,31 @@
             this.lbGrnToPayFuel.TabIndex = 8;
             this.lbGrnToPayFuel.Text = "грн.";
             // 
-            // SumFuelShow
+            // lbSumFuelShow
             // 
-            this.SumFuelShow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SumFuelShow.Location = new System.Drawing.Point(85, 16);
-            this.SumFuelShow.Name = "SumFuelShow";
-            this.SumFuelShow.Size = new System.Drawing.Size(57, 52);
-            this.SumFuelShow.TabIndex = 7;
-            this.SumFuelShow.Click += new System.EventHandler(this.label4_Click);
+            this.lbSumFuelShow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbSumFuelShow.Location = new System.Drawing.Point(85, 16);
+            this.lbSumFuelShow.Name = "lbSumFuelShow";
+            this.lbSumFuelShow.Size = new System.Drawing.Size(57, 52);
+            this.lbSumFuelShow.TabIndex = 7;
+            this.lbSumFuelShow.Click += new System.EventHandler(this.label4_Click);
             // 
             // gbCafe
             // 
+            this.gbCafe.Controls.Add(this.masktbCountCola);
+            this.gbCafe.Controls.Add(this.masktbCountPotatoFri);
+            this.gbCafe.Controls.Add(this.masktbCountHamburger);
+            this.gbCafe.Controls.Add(this.masktbCountHotDog);
             this.gbCafe.Controls.Add(this.lbCountCafe);
             this.gbCafe.Controls.Add(this.lbPriceCafe);
             this.gbCafe.Controls.Add(this.cbCola);
             this.gbCafe.Controls.Add(this.cbPotatoFri);
             this.gbCafe.Controls.Add(this.cbHamburger);
             this.gbCafe.Controls.Add(this.cbHotDog);
-            this.gbCafe.Controls.Add(this.tbCountCola);
             this.gbCafe.Controls.Add(this.tbPriceHamburger);
             this.gbCafe.Controls.Add(this.tbPricePotatoFri);
             this.gbCafe.Controls.Add(this.tbPriceCola);
-            this.gbCafe.Controls.Add(this.tbCountHotDog);
             this.gbCafe.Controls.Add(this.tbPriceHotDog);
-            this.gbCafe.Controls.Add(this.tbCountPotatoFri);
-            this.gbCafe.Controls.Add(this.tbCountHamburger);
             this.gbCafe.Controls.Add(this.gbToPayCafe);
             this.gbCafe.Location = new System.Drawing.Point(264, 7);
             this.gbCafe.Name = "gbCafe";
@@ -259,6 +264,46 @@
             this.gbCafe.TabIndex = 1;
             this.gbCafe.TabStop = false;
             this.gbCafe.Text = "Мини-кафе";
+            // 
+            // masktbCountCola
+            // 
+            this.masktbCountCola.Location = new System.Drawing.Point(178, 140);
+            this.masktbCountCola.Mask = "000";
+            this.masktbCountCola.Name = "masktbCountCola";
+            this.masktbCountCola.Size = new System.Drawing.Size(42, 20);
+            this.masktbCountCola.TabIndex = 27;
+            this.masktbCountCola.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.masktbCountCola_MaskInputRejected);
+            this.masktbCountCola.TextChanged += new System.EventHandler(this.masktbCountCola_TextChanged);
+            // 
+            // masktbCountPotatoFri
+            // 
+            this.masktbCountPotatoFri.Location = new System.Drawing.Point(178, 104);
+            this.masktbCountPotatoFri.Mask = "000";
+            this.masktbCountPotatoFri.Name = "masktbCountPotatoFri";
+            this.masktbCountPotatoFri.Size = new System.Drawing.Size(42, 20);
+            this.masktbCountPotatoFri.TabIndex = 26;
+            this.masktbCountPotatoFri.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.masktbCountPotatoFri_MaskInputRejected);
+            this.masktbCountPotatoFri.TextChanged += new System.EventHandler(this.masktbCountPotatoFri_TextChanged);
+            // 
+            // masktbCountHamburger
+            // 
+            this.masktbCountHamburger.Location = new System.Drawing.Point(178, 72);
+            this.masktbCountHamburger.Mask = "000";
+            this.masktbCountHamburger.Name = "masktbCountHamburger";
+            this.masktbCountHamburger.Size = new System.Drawing.Size(42, 20);
+            this.masktbCountHamburger.TabIndex = 25;
+            this.masktbCountHamburger.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.masktbCountHamburger_MaskInputRejected);
+            this.masktbCountHamburger.TextChanged += new System.EventHandler(this.masktbCountHamburger_TextChanged);
+            // 
+            // masktbCountHotDog
+            // 
+            this.masktbCountHotDog.Location = new System.Drawing.Point(178, 37);
+            this.masktbCountHotDog.Mask = "000";
+            this.masktbCountHotDog.Name = "masktbCountHotDog";
+            this.masktbCountHotDog.Size = new System.Drawing.Size(42, 20);
+            this.masktbCountHotDog.TabIndex = 24;
+            this.masktbCountHotDog.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.maskedTextBox1_MaskInputRejected);
+            this.masktbCountHotDog.TextChanged += new System.EventHandler(this.maskedTextBox1_TextChanged);
             // 
             // lbCountCafe
             // 
@@ -287,6 +332,7 @@
             this.cbCola.TabIndex = 21;
             this.cbCola.Text = "Кока-кола";
             this.cbCola.UseVisualStyleBackColor = true;
+            this.cbCola.CheckedChanged += new System.EventHandler(this.cbCola_CheckedChanged);
             // 
             // cbPotatoFri
             // 
@@ -297,6 +343,7 @@
             this.cbPotatoFri.TabIndex = 20;
             this.cbPotatoFri.Text = "Картошка-фри";
             this.cbPotatoFri.UseVisualStyleBackColor = true;
+            this.cbPotatoFri.CheckedChanged += new System.EventHandler(this.cbPotatoFri_CheckedChanged);
             // 
             // cbHamburger
             // 
@@ -307,6 +354,7 @@
             this.cbHamburger.TabIndex = 19;
             this.cbHamburger.Text = "Гамбургер";
             this.cbHamburger.UseVisualStyleBackColor = true;
+            this.cbHamburger.CheckedChanged += new System.EventHandler(this.cbHamburger_CheckedChanged);
             // 
             // cbHotDog
             // 
@@ -317,13 +365,7 @@
             this.cbHotDog.TabIndex = 18;
             this.cbHotDog.Text = "Хот-дог";
             this.cbHotDog.UseVisualStyleBackColor = true;
-            // 
-            // tbCountCola
-            // 
-            this.tbCountCola.Location = new System.Drawing.Point(178, 140);
-            this.tbCountCola.Name = "tbCountCola";
-            this.tbCountCola.Size = new System.Drawing.Size(42, 20);
-            this.tbCountCola.TabIndex = 17;
+            this.cbHotDog.CheckedChanged += new System.EventHandler(this.cbHotDog_CheckedChanged);
             // 
             // tbPriceHamburger
             // 
@@ -346,33 +388,12 @@
             this.tbPriceCola.Size = new System.Drawing.Size(42, 20);
             this.tbPriceCola.TabIndex = 14;
             // 
-            // tbCountHotDog
-            // 
-            this.tbCountHotDog.Location = new System.Drawing.Point(178, 37);
-            this.tbCountHotDog.Name = "tbCountHotDog";
-            this.tbCountHotDog.Size = new System.Drawing.Size(42, 20);
-            this.tbCountHotDog.TabIndex = 13;
-            // 
             // tbPriceHotDog
             // 
             this.tbPriceHotDog.Location = new System.Drawing.Point(130, 37);
             this.tbPriceHotDog.Name = "tbPriceHotDog";
             this.tbPriceHotDog.Size = new System.Drawing.Size(42, 20);
             this.tbPriceHotDog.TabIndex = 12;
-            // 
-            // tbCountPotatoFri
-            // 
-            this.tbCountPotatoFri.Location = new System.Drawing.Point(178, 104);
-            this.tbCountPotatoFri.Name = "tbCountPotatoFri";
-            this.tbCountPotatoFri.Size = new System.Drawing.Size(42, 20);
-            this.tbCountPotatoFri.TabIndex = 11;
-            // 
-            // tbCountHamburger
-            // 
-            this.tbCountHamburger.Location = new System.Drawing.Point(178, 72);
-            this.tbCountHamburger.Name = "tbCountHamburger";
-            this.tbCountHamburger.Size = new System.Drawing.Size(42, 20);
-            this.tbCountHamburger.TabIndex = 10;
             // 
             // gbToPayCafe
             // 
@@ -428,6 +449,7 @@
             this.lbTotalSumShow.Name = "lbTotalSumShow";
             this.lbTotalSumShow.Size = new System.Drawing.Size(50, 43);
             this.lbTotalSumShow.TabIndex = 17;
+            this.lbTotalSumShow.TextChanged += new System.EventHandler(this.lbTotalSumShow_TextChanged);
             // 
             // lbGrnTotalSumShow
             // 
@@ -490,6 +512,8 @@
             this.tbInSum.Name = "tbInSum";
             this.tbInSum.Size = new System.Drawing.Size(67, 26);
             this.tbInSum.TabIndex = 10;
+            this.tbInSum.TextChanged += new System.EventHandler(this.tbInSum_TextChanged);
+            this.tbInSum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbInSum_KeyPress);
             // 
             // lbOutSumShow
             // 
@@ -507,6 +531,7 @@
             this.btnCalculate.TabIndex = 8;
             this.btnCalculate.Text = "Посчитать";
             this.btnCalculate.UseVisualStyleBackColor = true;
+            this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
             // 
             // TaskEightBestOil
             // 
@@ -552,20 +577,16 @@
         private System.Windows.Forms.RadioButton rbCountFuel;
         private System.Windows.Forms.GroupBox gbToPayFuel;
         private System.Windows.Forms.Label lbGrnToPayFuel;
-        private System.Windows.Forms.Label SumFuelShow;
+        private System.Windows.Forms.Label lbSumFuelShow;
         private System.Windows.Forms.GroupBox gbCafe;
         private System.Windows.Forms.CheckBox cbCola;
         private System.Windows.Forms.CheckBox cbPotatoFri;
         private System.Windows.Forms.CheckBox cbHamburger;
         private System.Windows.Forms.CheckBox cbHotDog;
-        private System.Windows.Forms.TextBox tbCountCola;
         private System.Windows.Forms.TextBox tbPriceHamburger;
         private System.Windows.Forms.TextBox tbPricePotatoFri;
         private System.Windows.Forms.TextBox tbPriceCola;
-        private System.Windows.Forms.TextBox tbCountHotDog;
         private System.Windows.Forms.TextBox tbPriceHotDog;
-        private System.Windows.Forms.TextBox tbCountPotatoFri;
-        private System.Windows.Forms.TextBox tbCountHamburger;
         private System.Windows.Forms.GroupBox gbToPayCafe;
         private System.Windows.Forms.GroupBox gbSum;
         private System.Windows.Forms.TextBox tbInSum;
@@ -582,6 +603,10 @@
         private System.Windows.Forms.Label lbInSum;
         private System.Windows.Forms.Label lbGrnOutSum;
         private System.Windows.Forms.Label lbGrnInSum;
+        private System.Windows.Forms.MaskedTextBox masktbCountHotDog;
+        private System.Windows.Forms.MaskedTextBox masktbCountCola;
+        private System.Windows.Forms.MaskedTextBox masktbCountPotatoFri;
+        private System.Windows.Forms.MaskedTextBox masktbCountHamburger;
     }
 }
 

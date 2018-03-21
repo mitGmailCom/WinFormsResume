@@ -13,7 +13,7 @@ namespace Task_Eight
 
         public override string ToString()
         {
-            return $"{NameFuel} Price = {Price}";
+            return $"{NameFuel} {Price}";
         }
         
     }
